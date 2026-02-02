@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Global Feast - Souper Spectacle</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --dark: #2d3436;
+            --light: #dfe6e9;
+            --success: #00b894;
+        }
+
+        body {
+            background-image: url(Batiment_Nord_jour-vertical.jpg);
+            background-size: cover;
+            background-repeat: no-repeat;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .container { max-width: 1000px; margin: auto; padding: 40px 20px; }
+        header { text-align: center; margin-bottom: 50px; background: rgba(255,255,255,0.8); padding: 20px; border-radius: 15px; }
+        h1 { font-weight: 600; font-size: 2.5rem; margin-bottom: 10px;}
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            transition: 0.3s;
+            border: 2px solid transparent;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .card.selected { border-color: var(--primary); background: #f0eeff; }
+        
+        .country-name { font-weight: 600; font-size: 1.2rem; display: block; padding: 10px; }
+
+        .btn-confirm {
+            display: block;
+            margin: 40px auto;
+            padding: 15px 50px;
+            border-radius: 50px;
+            border: none;
+            background: var(--primary);
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.4);
+        }
+
+        #adminView {
+            display: none;
+            background: var(--dark);
+            color: white;
+            min-height: 100vh;
+            padding: 40px;
+        }
+        
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; text-align: center; }
+
+        table { width: 100%; border-collapse: collapse; background: white; color: var(--dark); border-radius: 10px; overflow: hidden; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background: var(--secondary); color: white; }
+
+        .admin-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #636e72;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            opacity: 0.5;
+        }
+        .admin-toggle:hover { opacity: 1; }
+
+        .card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="clientView" class="container">
+        <header>
+            <h1>Choisissez votre plat</h1>
+            <p>Sélectionnez votre plat pour le spectacle</p>
+        </header>
+
+        <div class="grid">
+            <div class="card" onclick="selectPlat(this, 'Maroc','🇲🇦')">
+                <img src="https://eduvaud-my.sharepoint.com/:i:/r/personal/pn85tqv_eduvaud_ch/Documents/Bureau/le-tajine-1.jpg?csf=1&web=1&e=b2aFad" alt="Maroc">
+                <span class="country-name">Maroc</span>
+            </div>
+            <div class="card" onclick="selectPlat(this, 'Asiatique','🍜')">
+                <img src="https://www.healthyfoodcreation.fr/wp-content/uploads/2023/04/pad-thai-1-1536x1024.jpg" alt="Asiatique">
+                <span class="country-name">Asiatique</span>
+            </div>
+            <div class="card" onclick="selectPlat(this, 'Italie', '🇮🇹')">
+                <img src="https://eduvaud-my.sharepoint.com/:i:/r/personal/pn85tqv_eduvaud_ch/Documents/Bureau/l-intro-1643403830.jpg?csf=1&web=1&e=bajWPW" alt="Italie">
+                <span class="country-name">Italie</span>
+            </div>
+            <div class="card" onclick="selectPlat(this, 'Mexique', '🇲🇽')">
+                <img src="https://www.maya-authentique.com/app/uploads/sites/5/2019/12/plats-mexicains.jpeg" alt="Mexique">
+                <span class="country-name">Mexique</span>
+            </div>
+             <div class="card" onclick="selectPlat(this, 'Turque', '🇹🇷')">
+                <img src="https://as1.ftcdn.net/v2/jpg/02/72/40/16/1000_F_272401663_Oz1FHbPJjmTSsOArkkb4X8pUeiVxDueR.jpg" alt="Turque">
+                <span class="country-name">Turque</span>
+            </div>
+             <div class="card" onclick="selectPlat(this, 'France', '🇫🇷')">
+                <img src="https://assets.afcdn.com/album/D20170901/phalbm25231742_w2832h1590c1.jpg" alt="France">
+                <span class="country-name">France</span>
+            </div>
+            <div class="card" onclick="selectPlat(this, 'Espagne', '🇪🇸')">
+                <img src="https://th.bing.com/th/id/R.070d39fdbdb075fed7c2fc1f01dbddb1?rik=MlEE27hLbx3j%2fw&pid=ImgRaw&r=0" alt="Espagne">
+                <span class="country-name">Espagne</span>
+            </div>
+            <div class="card" onclick="selectPlat(this, 'Libannais', '🇱🇧')">
+                <img src="https://thumbs.dreamstime.com/b/s%C3%A9lection-de-nourriture-libanaise-vue-du-haut-216583062.jpg" alt="Libannais">
+                <span class="country-name">Libannais</span>
+            </div>
+             <div class="card" onclick="selectPlat(this, 'Georgie', '🇬🇪')">
+                <img src="https://img.freepik.com/photos-gratuite/plat-traditionnel-cuisine-georgienne-khachapuri-adjare-fromage-oeuf-tomate-epicee_275899-1347.jpg?size=626&ext=jpg" alt="Georgie">
+                <span class="country-name">Georgie</span>
+            </div>
+             <div class="card" onclick="selectPlat(this, 'Inde', '🇮🇳')">
+                <img src="https://www.blueosa.com/wp-content/uploads/2020/01/the-best-top-10-indian-dishes.jpg" alt="Inde">
+                <span class="country-name">Inde</span>
+            </div>
+        </div>
+
+        <button class="btn-confirm" onclick="commander()">Valider ma sélection</button>
+    </div>
+
+    <div id="adminView">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2>Tableau de Bord Admin</h2>
+                <button onclick="toggleAdmin()" style="background:none; color:white; border:1px solid white; cursor:pointer; padding:5px 15px; border-radius:5px;">Sortir</button>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card"><h3 id="totalVotes">0</h3><p>Total Commandes</p></div>
+                <div class="stat-card"><h3 id="topCountry">-</h3><p>Plus Populaire</p></div>
+                <div class="stat-card"><button onclick="effacer()" style="color: #ff7675; background:none; border:none; cursor:pointer;">Réinitialiser</button></div>
+            </div>
+
+            <table id="tableCommandes">
+                <thead>
+                    <tr><th>Heure</th><th>Nom</th><th>Pays</th></tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+
+    <button class="admin-toggle" onclick="toggleAdmin()"> Mode Admin</button>
+
+    <script>
+        let choixActuel = "";
+
+        function selectPlat(element, pays, emoji) {
+            document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+            element.classList.add('selected');
+            choixActuel = { pays, emoji };
+        }
+
+        function commander() {
+            if(!choixActuel) return alert("Veuillez sélectionner un pays.");
+
+            // Demande du nom à l'utilisateur
+            let nomUtilisateur = prompt("Veuillez entrer votre nom pour la commande :");
+            
+            // Si l'utilisateur annule ou laisse vide
+            if (nomUtilisateur === null || nomUtilisateur.trim() === "") {
+                return alert("Le nom est obligatoire pour valider la commande.");
+            }
+            
+            let commandes = JSON.parse(localStorage.getItem('commandes') || "[]");
+            commandes.push({
+                nom: nomUtilisateur,
+                pays: choixActuel.pays,
+                emoji: choixActuel.emoji,
+                date: new Date().toLocaleTimeString('fr-FR', {hour: '2-digit', minute:'2-digit'})
+            });
+            localStorage.setItem('commandes', JSON.stringify(commandes));
+            
+            alert(`Merci ${nomUtilisateur} ! C'est noté. Destination : ${choixActuel.pays}`);
+            
+            // Réinitialisation visuelle après commande
+            document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+            choixActuel = "";
+        }
+
+        function toggleAdmin() {
+            const adminSection = document.getElementById('adminView');
+            const clientSection = document.getElementById('clientView');
+
+            if (adminSection.style.display === "block") {
+                adminSection.style.display = "none";
+                clientSection.style.display = "block";
+            } else {
+                let pass = prompt("Mot de passe admin :");
+                if (pass === "1234") {
+                    adminSection.style.display = "block";
+                    clientSection.style.display = "none";
+                    chargerStats();
+                } else {
+                    alert("Accès refusé.");
+                }
+            }
+        }
+
+        function chargerStats() {
+            const list = JSON.parse(localStorage.getItem('commandes') || "[]");
+            const tbody = document.querySelector('#tableCommandes tbody');
+            
+            // Affichage dans le tableau (Inclus le NOM maintenant)
+            tbody.innerHTML = [...list].reverse().map(c => `
+                <tr>
+                    <td>${c.date}</td>
+                    <td><strong>${c.nom || 'Anonyme'}</strong></td>
+                    <td>${c.emoji} ${c.pays}</td>
+                </tr>
+            `).join('');
+            
+            document.getElementById('totalVotes').innerText = list.length;
+            
+            if(list.length > 0) {
+                const counts = list.reduce((acc, c) => { acc[c.pays] = (acc[c.pays] || 0) + 1; return acc; }, {});
+                const top = Object.keys(counts).reduce((a, b) => counts[a] > counts[b] ? a : b);
+                document.getElementById('topCountry').innerText = top;
+            } else {
+                document.getElementById('topCountry').innerText = "-";
+            }
+        }
+
+        function effacer() {
+            if(confirm("Effacer toutes les données ?")) {
+                localStorage.removeItem('commandes');
+                chargerStats();
+            }
+        }
+    </script>
+</body>
+</html>
