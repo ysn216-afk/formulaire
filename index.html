@@ -214,12 +214,29 @@
         </header>
 
         <div class="grid" id="platsGrid">
-            <!-- Les plats seront injectés ici par JS -->
+            <div class="card" onclick="selectPlat(this, 'Suisse', '🇨🇭')">
+                <img src="https://www.willflyforfood.net/wp-content/uploads/2022/11/swiss-food-cheese-fondue.jpg"
+                    alt="Suisse">
+                <span class="country-name">Suisse</span>
+            </div>
+            <div class="card" onclick="selectPlat(this, 'Asiatique', '🍜')">
+                <img src="https://www.healthyfoodcreation.fr/wp-content/uploads/2023/04/pad-thai-1-1536x1024.jpg"
+                    alt="Asiatique">
+                <span class="country-name">Asiatique</span>
+            </div>
+            <div class="card" onclick="selectPlat(this, 'Italien', '🇮🇹')">
+                <img src="l-intro-1643403830.jpg" alt="Italien">
+                <span class="country-name">Italien</span>
+            </div>
+            <div class="card" onclick="selectPlat(this, 'Mexicain', '🇲🇽')">
+                <img src="https://www.maya-authentique.com/app/uploads/sites/5/2019/12/plats-mexicains.jpeg"
+                    alt="Mexicain">
+                <span class="country-name">Mexicain</span>
+            </div>
         </div>
 
         <button class="btn-confirm" onclick="commander()">Valider ma sélection</button>
     </div>
-
 
 
     <div id="adminView">
@@ -297,11 +314,21 @@
             try {
                 const response = await fetch('/api/plats');
                 listePlats = await response.json();
-                renderClientPlats();
+                // renderClientPlats(); // Désactivé car les cartes sont maintenant hardcodées
                 renderAdminPlats();
             } catch (error) {
                 console.error("Erreur chargement plats:", error);
             }
+        }
+
+        function renderClientPlats() {
+            const grid = document.getElementById('platsGrid');
+            grid.innerHTML = listePlats.map(plat => `
+                <div class="card" onclick="selectPlat(this, '${plat.pays}', '${plat.emoji}')">
+                    <img src="${plat.image}" alt="${plat.pays}">
+                    <span class="country-name">${plat.pays}</span>
+                </div>
+            `).join('');
         }
 
         function renderClientPlats() {
