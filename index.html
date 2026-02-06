@@ -307,6 +307,9 @@
 
         // Chargement initial
         document.addEventListener('DOMContentLoaded', () => {
+            if (window.location.protocol === 'file:') {
+                alert("ATTENTION : Vous devez ouvrir ce site via 'http://localhost:3000' et non en double-cliquant sur le fichier html. Lancez le serveur avec 'node server.js' et allez sur l'adresse indiquée.");
+            }
             chargerPlats();
         });
 
@@ -424,11 +427,12 @@
                     document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
                     choixActuel = "";
                 } else {
-                    alert("Erreur lors de l'enregistrement de la commande.");
+                    const errorText = await response.text();
+                    alert(`Erreur serveur (${response.status}): ${errorText}`);
                 }
             } catch (error) {
                 console.error('Erreur:', error);
-                alert("Erreur de connexion au serveur.");
+                alert("Erreur de connexion au serveur: " + error.message);
             }
         }
 
